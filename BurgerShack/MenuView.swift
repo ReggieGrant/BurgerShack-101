@@ -75,7 +75,7 @@ struct MenuView: View {
                     .frame(width: 200, height: 200)
                     .padding()
                 
-                Text("Today's Menu")
+                Text("Today's Menu.")
                     .font(.title2)
                     .bold()
                     

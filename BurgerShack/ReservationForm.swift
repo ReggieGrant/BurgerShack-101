@@ -19,6 +19,20 @@ struct ReservationForm: View {
     @State private var previewText = ""
     @State private var occasionName = ""
     @State private var childrenCount = 0
+    @State private var outDoorSeating = ""
+    
+    // Labels for guest
+    func guestLabel(_ count:Int) -> String {
+        count == 1 ? "Guest" : "Guests"
+    }
+    
+    func estimateTotal(adults: Int, children: Int) -> Double{
+        let adultPrice = 15.0
+        let childrenPrice = 9.0
+        
+        return Double(adults) * adultPrice + Double(children) * childrenPrice
+    }
+    
     var body: some View {
         Form{
             //header
@@ -53,7 +67,7 @@ struct ReservationForm: View {
                     TextField("555-555-5555", text:$phoneNumber)
                         .keyboardType(.numberPad)
                     if phoneNumber.isEmpty{
-                        Text("Please enter you phone number")
+                        Text("Please enter your phone number")
                             .foregroundColor(Color.red)
                     }}
                 
@@ -66,11 +80,11 @@ struct ReservationForm: View {
                 }
                 
                 Section{
-                    Button("Preview reseration"){
+                    Button("Preview reservation"){
                         previewText =
                     """
                     Name: \(userName)
-                    Guests: \(guestCount)
+                    \(guestLabel(guestCount)): \(guestCount)
                     Phone: \(phoneNumber)
                     Occasion: \(occasionName)
                     Children: \(childrenCount)
@@ -80,6 +94,39 @@ struct ReservationForm: View {
                 
                 Text(previewText)
                     .font(.footnote)
+            
+            Section(header: Text("Summary")){
+                VStack{
+                    HStack{
+                        Text("Reservation Summary")
+                            .font(.headline)
+                        Spacer()
+                        Image(systemName:"doc.text.magnifyingglass")
+                    }
+                    HStack{
+                        Text("Adults")
+                        Spacer()
+                        Text("\(guestCount)")
+                        
+                    }
+                    HStack{
+                        Text("Children")
+                        Spacer()
+                        Text("\(childrenCount)")
+                    }
+                    HStack{
+                        Text("Total:")
+                        Spacer()
+                        Text("$\(estimateTotal(adults: guestCount, children: childrenCount),specifier: "%.2f")")
+                    }
+                    // coloums for display the information
+                    // adults=2 children=1 total = 39.0
+                    
+                }
+                .padding()
+                .background(Color.gray.opacity(0.08))
+                .cornerRadius(12)
+            }
             }
         }
     }

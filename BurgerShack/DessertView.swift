@@ -7,22 +7,38 @@
 
 import SwiftUI
 
+
+
 struct DessertView: View {
-    let dessertMenuItems = [
-        (name: "Ice Cream", description: "", price: 0.00)
+    
+    let dessertItems =  [
+        "Chocolate Cake": 6.00,
+        "Stawberry Cheese Cake": 7.00,
+        "Ice Cream Sundae": 13.50
+        
     ]
     
     
+    var sortedMenu:[(name:String, price:Double)] {
+        dessertItems
+            .sorted { $0.value > $1.value }
+            .map {(name: $0.key, price:$0.value)}
+    }
     
     var body: some View {
-        List(dessertMenuItems) { dessert in
-            Text(dessert.name)
-            
-        }
         
+        List{
+            ForEach(sortedMenu, id:\.name){ item in
+                HStack{
+                    Text(item.name)
+                    
+                }
+            }
+        }
     }
 }
+    
+    #Preview {
+        DessertView()
+    }
 
-#Preview {
-    DessertView()
-}

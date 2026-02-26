@@ -21,6 +21,11 @@ import SwiftUI
 
 struct MenuView: View {
     // dictonary are special variables
+    
+    @State private var showMessage = false
+    @State private var showAffordableOnly = false
+    @State private var showDesserts = false
+    
     let menuItems:[String:Double] = [
         "Burger":15.99,
         "Fries":3.00,
@@ -33,7 +38,7 @@ struct MenuView: View {
     ]
     
     func getTotalItems() -> Int{
-        menuItems.count
+        displayMenu.count
     }
     
     var sortedMenu:[(name:String, price:Double)]{
@@ -42,6 +47,13 @@ struct MenuView: View {
             .map {(name: $0.key, price: $0.value)}
     }
     
+    var displayMenu:[(name:String, price:Double)]{
+            if showAffordableOnly {
+                return sortedMenu.filter { $0.price < 6 }
+            }else{
+                return sortedMenu
+            }
+        }
     /*
      [
      (name: "Burger", price: 15.99),
@@ -51,7 +63,7 @@ struct MenuView: View {
     
     var body: some View {
         // convert dictionary into a sorted element
-        let sortedMenu1 = menuItems.sorted {
+        let sortedMenu = menuItems.sorted {
             $0.key < $1.key
         }
         
@@ -75,13 +87,21 @@ struct MenuView: View {
                     .frame(width: 200, height: 200)
                     .padding()
                 
-                Text("Today's Menu.")
+                Text("Today's Menu")
                     .font(.title2)
                     .bold()
                     
                 
             }
-//            List{
+            
+        VStack{
+                Toggle("Show message",isOn: $showMessage)
+                Toggle("Show affordable menu",isOn: $showAffordableOnly)
+                        }
+                        if showMessage {
+                            Text("Welcome to Burger Shack")
+                        }
+            //            List{
 //                ForEach(sortedMenu1, id:\.key){
 //                    name,price in
 //                    
@@ -94,14 +114,28 @@ struct MenuView: View {
 //                }
 //            }
             
+            
+            
+            Button("View Desserts"){
+                showDesserts = true
+            }
+            .foregroundColor(.black)
+            .sheet(isPresented:$showDesserts){
+                DessertView()
+            }
+            .padding()
+            .background(Color.green.opacity(0.2))
+            .cornerRadius(10)
+            
             Section{
                 List {
-                    ForEach(sortedMenu, id: \.name) { item in
-                        HStack {
-                            Text(item.name)
-                            Spacer()
-                            Text(String(format: "%.2f", item.price))
-                        }
+                    ForEach(displayMenu, id: \.name) { item in
+//                        HStack {
+//                            Text(item.name)
+//                            Spacer()
+//                            Text(String(format: "%.2f", item.price))
+//                        }
+                        MenuItemRowView(name: item.name,price:item.price )
                     }
                 }
             }

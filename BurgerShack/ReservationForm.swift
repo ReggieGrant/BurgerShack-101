@@ -34,6 +34,20 @@ struct ReservationForm: View {
     }
     
     var body: some View {
+        
+        VStack{
+            Image("BurgerShack")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+                .padding()
+            Text("Burger Shack")
+                .font(.title)
+                .fontWeight(.bold)
+            Text("Make your Reservation today!")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
         Form{
             //header
             Section{

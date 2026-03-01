@@ -135,7 +135,7 @@ struct MenuView: View {
 //                            Spacer()
 //                            Text(String(format: "%.2f", item.price))
 //                        }
-                        MenuItemRowView(name: item.name,price:item.price )
+                        MenuItemRowView(name: item.name,price:item.price)
                     }
                 }
             }

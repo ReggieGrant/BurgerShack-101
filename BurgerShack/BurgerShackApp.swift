@@ -11,7 +11,7 @@ import SwiftUI
 struct BurgerShackApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeMenuView()
         }
     }
 }

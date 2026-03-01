@@ -26,6 +26,10 @@ struct MenuItemRowView: View {
             if price > 10{
                 PremiumBadge()
             }
+            Spacer()
+            if price < 10{
+                RegularBadge()
+            }
             
                           }
         .padding(6)
